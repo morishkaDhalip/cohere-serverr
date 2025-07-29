@@ -12,7 +12,7 @@ app.use(express.json());
 const cohere = new CohereClient({
   token: process.env.COHERE_API_KEY
 });
-
+// DO NOT CHANGE
 const EMBEDDINGS_FILE = './documents/embeddings.json';
 
 function cosineSimilarity(vecA, vecB) {
@@ -31,7 +31,7 @@ function getTopKDocuments(queryEmbedding, documents, k = 5) {
   similarities.sort((a, b) => b.score - a.score);
   return similarities.slice(0, k).map(item => item.doc);
 }
-
+//upload YOUR OWN DOICUMENTS HERE
 async function loadDocuments() {
   const files = [
     './documents/tour_details.json',
@@ -42,7 +42,7 @@ async function loadDocuments() {
   ];
 
   const documents = [];
-
+//change to fit your documents
   for (const file of files) {
     try {
       const content = await fs.readFile(file, 'utf-8');
@@ -129,8 +129,6 @@ async function embedDocumentsInBatches(documents, batchSize = 96) {
     });
 
     allEmbeddings.push(...response.embeddings);
-
-    // Delay between batches to avoid 429
     await sleep(10000);
   }
 
@@ -215,6 +213,7 @@ app.post('/generate', async (req, res) => {
       documents: topDocuments.map(doc => ({
         text: `${doc.data.title}. ${doc.data.snippet}`
       })),
+      //CHANGE THIS TO FIT THE CONTEXT OG YOUR APP
       preamble: 'You are a professional and friendly expert travel assistant named Y-TravelBot, working for Y-Travels. You must answer the users questions using ONLY the information provided in the documents below whenever possible. If a topic is not covered by the documents, you may use your own knowledge — but ONLY in the domain of travel and tourism. Stay strictly within this domain: travel, countries, cities, attractions, history, geography, local cuisine, culture, and things to do. DO NOT provide information about politics, economics, safety advice, or unrelated topics. Always write in a helpful, engaging tone suitable for a travel website audience. If country or place not refered to in documents please tell user to click generate itinerary in the nav bar',
       temperature: 0.3
     });
