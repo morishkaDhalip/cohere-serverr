@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.launch
+import com.fake.cohere_serverr.QueryRequest
 
 class ChatViewModel : ViewModel() {
     private val _chatState = MutableLiveData<String>()
@@ -13,9 +14,12 @@ class ChatViewModel : ViewModel() {
     fun sendQuery(userInput: String) {
         viewModelScope.launch {
             try {
-                val resp = RetrofitClient.chatApi.sendQuery(QueryModels.QueryRequest(userInput))
+                // Use QueryRequest directly, matching your server's { "prompt": "..." } payload
+                val resp = RetrofitClient.chatApi.sendQuery(QueryRequest(userInput))
+
                 if (resp.isSuccessful) {
-                    _chatState.value = resp.body()?.answer ?: "No answer"
+                    // Pull from the "text" field of your response JSON
+                    _chatState.value = resp.body()?.text ?: "No answer"
                 } else {
                     _chatState.value = "Error ${resp.code()}"
                 }

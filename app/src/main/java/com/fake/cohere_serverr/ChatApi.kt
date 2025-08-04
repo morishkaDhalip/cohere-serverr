@@ -1,10 +1,16 @@
 package com.fake.cohere_serverr
 
-import okhttp3.Response
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
+// Import your top‐level model classes:
+ import com.fake.cohere_serverr.QueryRequest
+import com.fake.cohere_serverr.QueryResponse
+
 interface ChatApi {
-    @POST("query")
-    suspend fun sendQuery(@Body req: QueryModels.QueryRequest): Response<QueryResponse>
+    @POST("generate")
+    suspend fun sendQuery(
+        @Body req: QueryRequest
+    ): Response<QueryResponse>
 }

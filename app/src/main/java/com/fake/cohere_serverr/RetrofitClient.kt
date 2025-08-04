@@ -15,7 +15,7 @@ object RetrofitClient {
         .build()
 
     val chatApi: ChatApi = Retrofit.Builder()
-        .baseUrl("https://<your-app>.onrender.com/")
+        .baseUrl("https://cohere-serverr-b01t.onrender.com/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
